@@ -2,19 +2,76 @@
   <div class="container">
     <img class="funny-kid" src="../assets/Standing.png" alt="" />
     <div class="bubble">
-      <img class="bubble-cloud" src="../assets/v999-14.jpg" alt="" />
-      <div class="joke">
-        Lorem ipsum dolor sit amet lorem Lorem ipsum dolor sit amet consectetur,
+      <img
+        v-show="hearJoke"
+        class="bubble-cloud"
+        src="../assets/v999-14.jpg"
+        alt=""
+      />
+      <div v-if="hearJoke" class="joke">
+        {{ joke }}
       </div>
     </div>
-    <h3>Hey wanna hear a joke?</h3>
-    <button class="btn">Hear a joke!</button>
+    <h3>Hey, wanna hear a joke?</h3>
+    <button @click="tellAJoke" class="btn">{{ callToAction }}</button>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'Listen-joke',
+  data() {
+    return {
+      hearJoke: false,
+      callToAction: 'Hear a joke!',
+      joke: '',
+      lang: '',
+    };
+  },
+  methods: {
+    async tellAJoke() {
+      // fetching api
+      let res = await axios.get(
+        'https://official-joke-api.appspot.com/jokes/random',
+        {
+          params: {
+            setup: '',
+            punchline: '',
+          },
+        }
+      );
+      console.log(res.data);
+      console.log((res.data.setup + ' ' + res.data.punchline).length);
+      // checking for joke length because cloud is small
+      if ((res.data.setup + ' ' + res.data.punchline).length > 75) {
+        // if too long make another request
+        let result = await axios.get(
+          'https://official-joke-api.appspot.com/jokes/random'
+        );
+        console.log(result.data);
+        this.joke = result.data.setup + ' ' + result.data.punchline;
+        console.log(this.joke.length);
+      }
+      //    if short enough keep the first joke
+      else {
+        this.joke = res.data.setup + ' ' + res.data.punchline;
+      }
+      // pop up the cloud
+      this.hearJoke = true;
+      // change the button text
+      this.callToAction = 'Hear another joke!';
+      this.speakTheJoke(this.joke);
+    },
+    speakTheJoke(el) {
+      const voice = window.speechSynthesis;
+      const voices = voice.getVoices();
+      const utterThis = new SpeechSynthesisUtterance(el);
+      utterThis.pitch = 50;
+      utterThis.lang = this.lang;
+      voice.speak(utterThis);
+    },
+  },
 };
 </script>
 
@@ -48,7 +105,7 @@ export default {
   height: auto;
 }
 .joke {
-  font-size: 10px;
+  font-size: 12px;
   position: relative;
   left: -220px;
   top: 90px;
