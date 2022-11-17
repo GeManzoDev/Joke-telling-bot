@@ -67,9 +67,10 @@ export default {
       const voice = window.speechSynthesis;
       const voices = voice.getVoices();
       const utterThis = new SpeechSynthesisUtterance(el);
-      utterThis.pitch = 50;
+      utterThis.pitch = 10;
       utterThis.lang = this.lang;
       voice.speak(utterThis);
+      console.log(voices);
     },
   },
 };
