@@ -52,10 +52,8 @@ export default {
       const voice = window.speechSynthesis;
       const voices = voice.getVoices();
       const utterThis = new SpeechSynthesisUtterance(el);
-      utterThis.voice = voices.filter((voice) => {
-        voice.name == 'Carmit';
-      })[0];
       utterThis.lang = this.lang;
+      utterThis.rate = 0.8;
       voice.speak(utterThis);
     },
     getLanguage() {
