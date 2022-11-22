@@ -53,9 +53,8 @@ export default {
       const voices = voice.getVoices();
       const utterThis = new SpeechSynthesisUtterance(el);
       utterThis.voice = voices.filter((voice) => {
-        voice.name == 'Alex';
+        voice.name == 'Carmit';
       })[0];
-      utterThis.pitch = 10;
       utterThis.lang = this.lang;
       voice.speak(utterThis);
     },
@@ -101,7 +100,7 @@ export default {
   height: auto;
 }
 .joke {
-  font-size: 12px;
+  font-size: 9px;
   position: relative;
   left: -220px;
   top: 90px;
