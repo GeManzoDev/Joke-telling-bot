@@ -1,4 +1,8 @@
 <template>
+  <ChoseLanguageDropdown
+    :joke="joke"
+    @getLanguage="getLanguage"
+  ></ChoseLanguageDropdown>
   <div class="container">
     <img class="funny-kid" src="../assets/Standing.png" alt="" />
     <div class="bubble">
@@ -19,6 +23,7 @@
 
 <script>
 import axios from 'axios';
+import ChoseLanguageDropdown from './Chose-language-dropdown.vue';
 export default {
   name: 'Listen-joke',
   data() {
@@ -26,37 +31,17 @@ export default {
       hearJoke: false,
       callToAction: 'Hear a joke!',
       joke: '',
-      lang: '',
+      lang: 'en',
     };
   },
   methods: {
     async tellAJoke() {
       // fetching api
-      let res = await axios.get(
-        'https://official-joke-api.appspot.com/jokes/random',
-        {
-          params: {
-            setup: '',
-            punchline: '',
-          },
-        }
+      const res = await axios.get(
+        `https://v2.jokeapi.dev/joke/Any?lang=${this.lang}&blacklistFlags=nsfw,racist,sexist,explicit&type=single`
       );
-      console.log(res.data);
-      console.log((res.data.setup + ' ' + res.data.punchline).length);
-      // checking for joke length because cloud is small
-      if ((res.data.setup + ' ' + res.data.punchline).length > 75) {
-        // if too long make another request
-        let result = await axios.get(
-          'https://official-joke-api.appspot.com/jokes/random'
-        );
-        console.log(result.data);
-        this.joke = result.data.setup + ' ' + result.data.punchline;
-        console.log(this.joke.length);
-      }
-      //    if short enough keep the first joke
-      else {
-        this.joke = res.data.setup + ' ' + res.data.punchline;
-      }
+      this.joke = res.data.joke;
+
       // pop up the cloud
       this.hearJoke = true;
       // change the button text
@@ -72,6 +57,14 @@ export default {
       voice.speak(utterThis);
       console.log(voices);
     },
+    getLanguage() {
+      const chosenlang =
+        document.querySelector('select').selectedOptions[0].lang;
+      this.lang = chosenlang;
+    },
+  },
+  components: {
+    ChoseLanguageDropdown,
   },
 };
 </script>

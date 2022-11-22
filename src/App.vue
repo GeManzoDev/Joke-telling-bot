@@ -1,5 +1,4 @@
 <template>
-  <ChoseLanguageDropdown></ChoseLanguageDropdown>
   <ListenJoke></ListenJoke>
 </template>
 

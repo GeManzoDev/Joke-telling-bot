@@ -1,5 +1,5 @@
 <template>
-  <div class="language-picker js-language-picker">
+  <div class="language-picker">
     <form action="" class="language-picker__form">
       <label for="language-picker-select">Select your language</label>
 
@@ -9,12 +9,12 @@
         id="language-picker-select"
       >
         <option
-          v-for="lang in languages"
-          :lang="lang.name"
-          :value="lang.value"
-          :id="lang.id"
+          v-for="language in languages"
+          :lang="language.name"
+          :value="language.value"
+          :id="language.id"
         >
-          {{ lang.value }}
+          {{ language.value }}
         </option>
       </select>
     </form>
@@ -38,8 +38,8 @@ export default {
           id: 2,
         },
         {
-          name: 'fr',
-          value: 'Français',
+          name: 'es',
+          value: 'Espanol',
           id: 3,
         },
         {
@@ -48,18 +48,16 @@ export default {
           id: 4,
         },
       ],
-      selectedLang: 'English',
+      selectedLang: 'en',
     };
   },
-  props: {},
   methods: {
     getLanguage() {
-      const language =
-        document.querySelector('select').selectedOptions[0].value;
-      this.selectedLang = language;
-      console.log(this.selectedLang);
-      // this.$emit('getLanguage', lang);
+      this.$emit('getLanguage');
     },
+  },
+  props: {
+    joke: 'String',
   },
 };
 </script>
