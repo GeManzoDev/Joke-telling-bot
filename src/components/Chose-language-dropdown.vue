@@ -43,8 +43,8 @@ export default {
           id: 3,
         },
         {
-          name: 'it',
-          value: 'Italiano',
+          name: 'cs',
+          value: 'Czech',
           id: 4,
         },
       ],
