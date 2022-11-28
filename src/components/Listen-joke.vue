@@ -84,6 +84,7 @@ export default {
 .funny-kid {
   text-align: center;
   margin: auto;
+  object-fit: fill;
 }
 .bubble {
   position: absolute;
@@ -121,5 +122,21 @@ export default {
 }
 .btn:hover {
   transform: scale(0.97);
+}
+
+@media screen and (max-width: 480px) {
+  .bubble-cloud {
+    display: none;
+  }
+  .container {
+    height: 100vh;
+  }
+  .joke {
+    font-size: 20px;
+    font-style: italic;
+    color: #b07e00;
+    top: 700px;
+    left: -470px;
+  }
 }
 </style>
